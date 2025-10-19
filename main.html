@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng 20/10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://anhcute.net/wp-content/uploads/2024/12/anh-nen-genshin-4k.jpeg">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            font-family: 'Dancing Script', cursive;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            color: #fff;
+            z-index: 10;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 3.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 20px;
+        }
+        .envelope {
+            cursor: pointer;
+            width: 220px;
+            height: 140px;
+            background: #fff;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+            perspective: 1000px;
+        }
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+        .envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 70px 110px 0;
+            border-style: solid;
+            border-color: #f4a8a8 transparent transparent;
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .envelope.open .flap {
+            transform: translateX(-50%) rotateX(-180deg);
+        }
+        .letter {
+            display: none;
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            border: 4px solid transparent;
+            border-image: url('https://www.transparenttextures.com/patterns/floral-pattern.png') 30 round;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(255, 182, 193, 0.3);
+            max-width: 600px;
+            width: 80%;
+            color: #333;
+            font-size: 1.4em;
+            line-height: 1.6;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            text-align: center;
+            will-change: opacity, left;
+        }
+        .letter.show {
+            display: block;
+            animation: slideInFromRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .letter.closing {
+            animation: closeLetter 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .letter.lantern {
+            width: 100px;
+            height: 120px;
+            background: #ffcccb;
+            border-radius: 50% 50% 40% 40%;
+            box-shadow: 0 0 20px rgba(255, 204, 203, 0.8);
+            animation: flyLantern 2.5s ease-in-out forwards;
+            padding: 0;
+            border: none;
+            position: relative;
+        }
+        .letter.lantern .letter-header,
+        .letter.lantern .typewriter,
+        .letter.lantern .wish-section,
+        .letter.lantern .letter-image,
+        .letter.lantern .image-sparkle {
+            display: none;
+        }
+        .letter.lantern::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: #ffcccb;
+            border-radius: 50%;
+        }
+        .letter.lantern::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ff4500;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff4500;
+        }
+        .letter-header {
+            font-size: 1.8em;
+            color: #d81b60;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .typewriter {
+            white-space: normal;
+            max-width: 90%;
+            margin: 0 auto 20px auto;
+            word-break: break-word;
+            line-height: 1.6;
+            text-align: center;
+            hyphens: auto;
+        }
+        .typewriter.marquee {
+            animation: marquee 2s ease-in-out forwards;
+        }
+        .letter-image {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            animation: zoomIn 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .wish-section {
+            display: none;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .wish-section input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+        }
+        .wish-section button {
+            padding: 10px 20px;
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Dancing Script', cursive;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .wish-section button:hover {
+            background: #ff1493;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+        }
+        .wish-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            color: #d81b60;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 30;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .wish-message.show {
+            display: flex;
+        }
+        .wish-message button {
+            padding: 10px 20px;
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Dancing Script', cursive;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .wish-message button:hover {
+            background: #ff1493;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+        }
+        .sent-letter {
+            width: 50px;
+            height: 30px;
+            background: #fff;
+            border: 2px solid #f4a8a8;
+            border-radius: 5px;
+            animation: sendLetter 1s ease-in-out forwards;
+            position: relative;
+        }
+        .sent-letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 15px 25px 0;
+            border-style: solid;
+            border-color: #f4a8a8 transparent transparent;
+        }
+        .wish-box {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffe4e1, #fffacd);
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 215, 0, 0.5);
+            z-index: 25;
+            animation: fadeIn 0.5s ease-in-out;
+            text-align: center;
+            padding: 0;
+            font-size: 1.2em;
+            color: #d81b60;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 60px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .wish-box.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wish-box.expanded {
+            width: 220px;
+            min-height: 80px;
+            border-radius: 15px;
+            padding: 10px;
+            font-size: 1em;
+            line-height: 1.4;
+            word-break: break-word;
+            animation: expand 0.3s ease-in-out;
+        }
+        .wish-box:hover::after {
+            content: 'Hộp Thư Ông Bụt';
+            position: absolute;
+            top: 70px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            color: #d81b60;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 0.9em;
+            z-index: 26;
+        }
+        .wish-box.pulse {
+            animation: pulseWishBox 0.3s ease-in-out 2;
+        }
+        .wish-box.glow {
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+        .wish-list {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 10px;
+            width: 220px;
+            max-height: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 26;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 0.9em;
+            color: #d81b60;
+            text-align: left;
+        }
+        .wish-list.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .wish-list-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .wish-box-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #ffd700 10%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkle 1.2s ease-in-out infinite;
+        }
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff 10%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+        .lantern-sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #ffd700 10%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkle 1s ease-in-out infinite;
+        }
+        .image-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: sparkle 1.2s ease-in-out infinite;
+        }
+        .image-sparkle.pink {
+            background: radial-gradient(circle, #ff69b4 10%, transparent 70%);
+        }
+        .image-sparkle.gold {
+            background: radial-gradient(circle, #ffd700 10%, transparent 70%);
+        }
+        .image-sparkle.white {
+            background: radial-gradient(circle, #ffffff 10%, transparent 70%);
+        }
+        .ripple {
+            position: absolute;
+            background: rgba(255, 20, 147, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            transform: rotate(-45deg);
+            animation: float 5s ease-in-out infinite;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+        .flower {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: url('https://img.icons8.com/emoji/48/000000/rose-emoji.png') no-repeat center;
+            background-size: contain;
+            animation: fall 4s linear infinite;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #000;
+            opacity: 0.8;
+            animation: confettiFall 3s ease-out forwards;
+            transform: rotateZ(45deg);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 215, 0, 0.5); }
+            to { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 1); }
+        }
+        @keyframes expand {
+            from { width: 60px; height: 60px; border-radius: 50%; padding: 0; }
+            to { width: 220px; min-height: 80px; border-radius: 15px; padding: 10px; }
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes slideInFromRight {
+            from { left: 100%; opacity: 0; }
+            to { left: 50%; opacity: 1; }
+        }
+        @keyframes closeLetter {
+            from { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            to { transform: translate(-50%, -50%) scale(0.3); opacity: 0.5; }
+        }
+        @keyframes flyLantern {
+            0% { transform: translate(-50%, -50%) scale(0.3) rotate(0deg); opacity: 0.5; }
+            50% { transform: translate(-50%, -500%) scale(0.3) rotate(10deg); opacity: 0.7; }
+            100% { transform: translate(-50%, -1000%) scale(0.3) rotate(-10deg); opacity: 0; }
+        }
+        @keyframes sendLetter {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-100px); opacity: 0; }
+        }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) translateX(0); }
+            25% { transform: translate(-50%, -50%) translateX(5px); }
+            75% { transform: translate(-50%, -50%) translateX(-5px); }
+            100% { transform: translate(-50%, -50%) translateX(0); }
+        }
+        @keyframes pulseWishBox {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes marquee {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+            100% { transform: translateY(-600px) rotate(-45deg); opacity: 0; }
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotateZ(45deg); opacity: 0.8; }
+            100% { transform: translateY(300px) rotateZ(720deg); opacity: 0; }
+        }
+        @keyframes sparkle {
+            0% { transform: scale(0.5); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.5); opacity: 0.3; }
+        }
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.7; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+        @media (max-width: 600px) {
+            .letter {
+                padding: 20px;
+                font-size: 1.2em;
+                max-width: 90%;
+            }
+            .letter.show {
+                animation: slideInFromRight 0.5s ease-in-out forwards;
+            }
+            .letter-header {
+                font-size: 1.5em;
+            }
+            .wish-section input {
+                font-size: 0.9em;
+            }
+            .wish-section button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+            .wish-message {
+                padding: 15px 30px;
+                font-size: 1.2em;
+            }
+            .wish-message.show {
+                animation: none;
+            }
+            .wish-box {
+                width: 50px;
+                height: 50px;
+                font-size: 1em;
+                line-height: 50px;
+                top: 5px;
+                right: 5px;
+            }
+            .wish-box.expanded {
+                width: 180px;
+                min-height: 70px;
+                padding: 8px;
+                font-size: 0.9em;
+            }
+            .wish-box:hover::after {
+                top: 60px;
+                font-size: 0.8em;
+            }
+            .wish-list {
+                width: 180px;
+                top: 65px;
+                right: 5px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chúc Mừng 20/10</h1>
+        <div class="envelope" id="envelope" onclick="openLetter()">
+            <div class="flap"></div>
+        </div>
+        <div class="letter" id="letter">
+            <div class="letter-header">Lời Chúc 20/10</div>
+            <p class="typewriter" id="typewriter"></p>
+            <img class="letter-image" src="https://img.icons8.com/color/100/000000/rose.png" alt="Rose Image">
+            <div class="wish-section" id="wish-section">
+                <input type="text" id="name-input" placeholder="Tên của bạn...">
+                <input type="text" id="wish-input" placeholder="Gửi điều ước 20/10 của bạn...">
+                <button onclick="sendWish(event)">Thả Nguyện Ước</button>
+            </div>
+        </div>
+        <div class="wish-message" id="wish-message">
+            <div class="sent-letter"></div>
+            <span id="wish-text">Nguyện ước của bạn sẽ được thực hiện sớm thôi!</span>
+            <button onclick="resetLetter(event)">Đọc lại thư</button>
+        </div>
+        <div class="wish-box" id="wish-box" onclick="toggleWishList()">
+            <span id="wish-box-text">Bụt</span>
+        </div>
+        <div class="wish-list" id="wish-list"></div>
+    </div>
+    <audio id="envelopeSound" src="https://freesound.org/data/previews/448/448234_1676145-lq.mp3"></audio>
+    <audio id="lanternSound" src="https://freesound.org/data/previews/184/184438_2398975-lq.mp3"></audio>
+    <script>
+        const message = "Mình viết vài dòng nhỏ này gửi tặng đến các bạn nữ — như một đóa hoa nhỏ giữa khu vườn rực rỡ sắc màu. Chúc các bạn luôn rạng rỡ như những bông hoa, luôn xinh đẹp và tỏa hương theo cách riêng của mình. Mỗi bạn là một bông hoa khác biệt — chúc các bạn mãi xinh tươi, tự tin và hạnh phúc như chính sắc hoa mà mình mang 💮💮💮";
+        const words = message.split(" ").filter(word => word !== "");
+        let userWish = "";
+        const isMobile = window.innerWidth <= 600;
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = window.innerHeight + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            flower.style.left = Math.random() * window.innerWidth + 'px';
+            flower.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(flower);
+            setTimeout(() => flower.remove(), 4000);
+        }
+        function createConfetti() {
+            for (let i = 0; i < (isMobile ? 30 : 50); i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = Math.random() * window.innerHeight / 2 + 'px';
+                confetti.style.background = `hsl(${Math.random() * 360}, 70%, 50%)`;
+                confetti.style.animationDuration = Math.random() * 2 + 1 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+        function createSparkles() {
+            const letter = document.getElementById('letter');
+            for (let i = 0; i < (isMobile ? 5 : 10); i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+                letter.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+        function createLanternSparkles() {
+            const letter = document.getElementById('letter');
+            for (let i = 0; i < (isMobile ? 4 : 8); i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('lantern-sparkle');
+                sparkle.style.left = (Math.random() * 80 - 40 + 50) + '%';
+                sparkle.style.top = (Math.random() * 80 - 40 + 50) + '%';
+                sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+                letter.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 2500);
+            }
+        }
+        function createImageSparkles() {
+            const image = document.querySelector('.letter-image');
+            const colors = ['pink', 'gold', 'white'];
+            for (let i = 0; i < (isMobile ? 6 : 12); i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('image-sparkle', colors[Math.floor(Math.random() * colors.length)]);
+                sparkle.style.left = (Math.random() * 80 - 40 + 50) + '%';
+                sparkle.style.top = (Math.random() * 80 - 40 + 50) + '%';
+                sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+                image.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+        function createWishBoxSparkles() {
+            const wishBox = document.getElementById('wish-box');
+            for (let i = 0; i < (isMobile ? 6 : 12); i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('wish-box-sparkle');
+                sparkle.style.left = (Math.random() * 80 - 40 + 50) + '%';
+                sparkle.style.top = (Math.random() * 80 - 40 + 50) + '%';
+                sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+                wishBox.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+        function saveWish(name, wish) {
+            const wishes = JSON.parse(localStorage.getItem('wishes') || '[]');
+            wishes.push({ name: name || 'Ẩn danh', wish, timestamp: new Date().toISOString() });
+            localStorage.setItem('wishes', JSON.stringify(wishes));
+        }
+        function renderWishList() {
+            const wishList = document.getElementById('wish-list');
+            const wishes = JSON.parse(localStorage.getItem('wishes') || '[]');
+            wishList.innerHTML = '';
+            if (wishes.length === 0) {
+                wishList.innerHTML = '<div class="wish-list-item">Chưa có nguyện ước nào.</div>';
+            } else {
+                wishes.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.classList.add('wish-list-item');
+                    div.textContent = `${index + 1}. ${item.name}: ${item.wish}`;
+                    wishList.appendChild(div);
+                });
+            }
+        }
+        function toggleWishList() {
+            const wishList = document.getElementById('wish-list');
+            wishList.classList.toggle('show');
+            if (wishList.classList.contains('show')) {
+                renderWishList();
+            }
+        }
+        function checkWishBox() {
+            const wishBox = document.getElementById('wish-box');
+            const wishBoxText = document.getElementById('wish-box-text');
+            const wishes = JSON.parse(localStorage.getItem('wishes') || '[]');
+            if (wishes.length > 0) {
+                wishBox.classList.add('show');
+                wishBox.classList.remove('expanded', 'pulse', 'glow');
+                wishBoxText.textContent = 'Bụt';
+                createWishBoxSparkles();
+            }
+        }
+        function createRippleEffect(event, button) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            button.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+        function typeWriterEffect() {
+            const typewriter = document.getElementById('typewriter');
+            let wordIndex = 0;
+            let currentText = '';
+            
+            function type() {
+                if (wordIndex < words.length) {
+                    currentText += words[wordIndex] + ' ';
+                    typewriter.textContent = currentText;
+                    wordIndex++;
+                    setTimeout(type, isMobile ? 300 : 200);
+                } else {
+                    document.getElementById('wish-section').style.display = 'block';
+                    document.querySelector('.letter-image').style.display = 'block';
+                    createImageSparkles();
+                }
+            }
+            type();
+        }
+        function sendWish(event) {
+            const nameInput = document.getElementById('name-input');
+            const wishInput = document.getElementById('wish-input');
+            const wishText = wishInput.value.trim();
+            const name = nameInput.value.trim();
+            const button = event.currentTarget;
+            const wishBox = document.getElementById('wish-box');
+            const wishBoxText = document.getElementById('wish-box-text');
+            createRippleEffect(event, button);
+            if (wishText) {
+                userWish = wishText;
+                saveWish(name, wishText);
+                wishBoxText.textContent = `${name || 'Ẩn danh'}: ${wishText} - Đang được thực hiện`;
+                wishBox.classList.add('show', 'expanded', 'pulse', 'glow');
+                createWishBoxSparkles();
+                document.getElementById('wish-text').textContent = `Nguyện ước của bạn: "${userWish}" sẽ được thực hiện sớm thôi!`;
+                const letter = document.getElementById('letter');
+                letter.classList.remove('show');
+                letter.classList.add('closing');
+                const lanternSound = document.getElementById('lanternSound');
+                lanternSound.onerror = () => console.log('Không thể tải âm thanh lồng đèn.');
+                lanternSound.play().catch(() => console.log('Trình duyệt chặn âm thanh tự động.'));
+                setTimeout(() => {
+                    letter.classList.remove('closing');
+                    letter.classList.add('lantern');
+                    createLanternSparkles();
+                    setTimeout(() => {
+                        wishBoxText.textContent = 'Bụt';
+                        wishBox.classList.remove('expanded', 'pulse', 'glow');
+                        wishBox.classList.add('show');
+                        letter.style.display = 'none';
+                        letter.classList.remove('lantern');
+                        document.getElementById('wish-message').classList.add('show');
+                    }, 2500);
+                }, 500);
+            }
+        }
+        function resetLetter(event) {
+            const letter = document.getElementById('letter');
+            const envelope = document.getElementById('envelope');
+            const wishMessage = document.getElementById('wish-message');
+            const typewriter = document.getElementById('typewriter');
+            const image = document.querySelector('.letter-image');
+            const wishBox = document.getElementById('wish-box');
+            const wishBoxText = document.getElementById('wish-box-text');
+            const button = event.currentTarget;
+            createRippleEffect(event, button);
+            wishMessage.classList.remove('show');
+            envelope.style.display = 'block';
+            envelope.classList.remove('open');
+            letter.classList.remove('show', 'closing', 'lantern');
+            letter.style.display = 'none';
+            typewriter.classList.remove('marquee');
+            typewriter.textContent = message;
+            document.getElementById('wish-input').value = '';
+            document.getElementById('name-input').value = '';
+            document.getElementById('wish-section').style.display = 'block';
+            document.getElementById('wish-text').textContent = 'Nguyện ước của bạn sẽ được thực hiện sớm thôi!';
+            wishBox.classList.remove('expanded', 'pulse', 'glow');
+            wishBoxText.textContent = 'Bụt';
+            document.getElementById('wish-list').classList.remove('show');
+            image.style.display = 'block';
+            checkWishBox();
+            setTimeout(() => {
+                envelope.classList.add('open');
+                const sound = document.getElementById('envelopeSound');
+                sound.onerror = () => console.log('Không thể tải âm thanh phong bì.');
+                sound.play().catch(() => console.log('Trình duyệt chặn âm thanh tự động.'));
+                setTimeout(() => {
+                    envelope.style.display = 'none';
+                    letter.style.display = 'block';
+                    letter.classList.add('show');
+                    typewriter.classList.add('marquee');
+                    createConfetti();
+                    createSparkles();
+                    createImageSparkles();
+                    document.getElementById('wish-section').style.display = 'block';
+                    image.style.display = 'block';
+                }, 600);
+            }, 100);
+        }
+        function openLetter() {
+            const envelope = document.getElementById('envelope');
+            const letter = document.getElementById('letter');
+            const sound = document.getElementById('envelopeSound');
+            sound.onerror = () => console.log('Không thể tải âm thanh phong bì.');
+            sound.play().catch(() => console.log('Trình duyệt chặn âm thanh tự động, vui lòng bật âm thanh thủ công.'));
+            envelope.classList.add('open');
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                letter.classList.add('show');
+                createConfetti();
+                createSparkles();
+                typeWriterEffect();
+            }, 600);
+        }
+        window.onload = checkWishBox;
+        setInterval(createHeart, 400);
+        setInterval(createFlower, 250);
+    </script>
+</body>
+</html>
